@@ -38,6 +38,8 @@ dependencies:
   flutter_bloc: ^8.1.5
   bloc:
   dio:
+  dash_chat_2: ^0.0.20
+  firebase_core: ^2.31.0
 
 dev_dependencies:
   flutter_test:

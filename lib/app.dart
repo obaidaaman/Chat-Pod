@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:space_pod/screens/home_page.dart';
+import 'package:space_pod/screens/auth/login/ui/login.dart';
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -12,12 +13,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        fontFamily: 'SixtyFour',
+
           brightness: Brightness.light,
           useMaterial3: true,
           scaffoldBackgroundColor: Colors.grey.shade900,
           primaryColor: Colors.grey.shade900),
-      home: const MyHomePage(),
+      home: const LoginPage(),
     );
   }
 }

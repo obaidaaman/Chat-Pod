@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "32331647116",
+    "project_id": "chatpod-ffd23",
+    "storage_bucket": "chatpod-ffd23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32331647116:android:353bd8494427e180ead3a9",
+        "android_client_info": {
+          "package_name": "com.example.space_pod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZGfbGsRBZH3N8Ihu7KB_EHVJm8qeFUKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
