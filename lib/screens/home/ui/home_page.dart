@@ -1,12 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:space_pod/models/chat_message_model.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:space_pod/screens/auth/login/ui/login.dart';
 
+import '../../auth/login/bloc/auth_log_bloc.dart';
 import '../bloc/chat_bloc.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+  final AuthLogBloc authLogBloc;
+
+  const MyHomePage({super.key, required this.authLogBloc});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -26,10 +32,11 @@ class _MyHomePageState extends State<MyHomePage> {
       body: BlocConsumer<ChatBloc, ChatState>(
         bloc: chatBloc,
         listener: (context, state) {
-          // TODO: implement listener
+
         },
         builder: (context, state) {
           switch (state.runtimeType) {
+
             case ChatSuccessState:
               List<ChatMessageModel> messages =
                   (state as ChatSuccessState).messages;
@@ -48,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       height: 80,
-                      child: const Row(
+                      child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -59,11 +66,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 5),
-                            child: Icon(
-                              Icons.logout,
-                              color: Colors.white,
+                          GestureDetector(
+                            onTap: () {
+                              FirebaseAuth.instance.signOut().then((value) {
+                                return Navigator.popUntil(
+                                    context, (route) => route.isFirst);
+                              });
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Icon(
+                                Icons.logout,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],
@@ -162,8 +177,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               );
 
+
+
             default:
-              return SizedBox();
+              return SizedBox(
+                child: Text('LogOut Error'),
+              );
           }
         },
       ),
