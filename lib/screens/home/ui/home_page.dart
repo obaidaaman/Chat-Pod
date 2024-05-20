@@ -1,12 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:space_pod/models/chat_message_model.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:space_pod/screens/auth/login/ui/login.dart';
-
 import '../../auth/login/bloc/auth_log_bloc.dart';
+import '../../profile/view_profile/ui/profil_page.dart';
 import '../bloc/chat_bloc.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -31,12 +28,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: BlocConsumer<ChatBloc, ChatState>(
         bloc: chatBloc,
-        listener: (context, state) {
-
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           switch (state.runtimeType) {
-
             case ChatSuccessState:
               List<ChatMessageModel> messages =
                   (state as ChatSuccessState).messages;
@@ -57,14 +51,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 80,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                         children: [
-                          Text(
-                            "Chat Pod AI",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
+                          Expanded(
+                            child: Text(
+                              "Chat Pod AI",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ),
                           ),
                           GestureDetector(
                             onTap: () {
@@ -74,13 +70,28 @@ class _MyHomePageState extends State<MyHomePage> {
                               });
                             },
                             child: const Padding(
-                              padding: EdgeInsets.only(bottom: 5),
+                              padding: EdgeInsets.only(bottom: 5,right: 15),
                               child: Icon(
                                 Icons.logout,
                                 color: Colors.white,
                               ),
                             ),
                           ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ProfilePage()));
+                            },
+                            child: const Padding(
+                              padding: EdgeInsets.only(bottom: 5),
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -93,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               CircleAvatar(
                                 backgroundColor: Colors.black,
                                 child: messages[index].role == 'user'
-                                    ? Icon(Icons.person)
+                                    ? const Icon(Icons.person)
                                     : const Image(
                                         image: AssetImage('assets/google.png')),
                               ),
@@ -176,8 +187,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
               );
-
-
 
             default:
               return SizedBox(

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthLogRepo {
@@ -28,5 +29,28 @@ class AuthLogRepo {
       }
       return null;
     }
+  }
+  static CreateDatabase(String name , String email, String password, String id) async{
+   try{
+     CollectionReference userID = FirebaseFirestore.instance.collection('users');
+     final users = userID.doc(id);
+
+     return  await users.set({
+       'full_name' : name,
+       'email' : email,
+       'password' : password,
+       'user_id' : id
+     }).then((value) {
+       print('User added');
+
+     }).catchError((error)  {
+
+     });
+
+   }  on FirebaseException catch(e){
+
+     return e.code;
+   }
+
   }
 }

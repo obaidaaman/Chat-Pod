@@ -36,6 +36,7 @@ class AuthLogBloc extends Bloc<AuthLogEvent, AuthLogState> {
     emit(AuthLogLoadingState());
       try{
        await FirebaseAuth.instance.signOut();
+
         emit(AuthLogOutSuccessState());
       }  on FirebaseAuthException catch(e){
 

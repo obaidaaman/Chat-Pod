@@ -14,16 +14,18 @@ class AuthSignBloc extends Bloc<AuthSignEvent, AuthSignState> {
     on<SignUpButtonClickedEvent>(signUpButtonClickedEvent);
   }
 
-  FutureOr<void> signUpButtonClickedEvent(
-      SignUpButtonClickedEvent event, Emitter<AuthSignState> emit) async {
+  FutureOr<void> signUpButtonClickedEvent(SignUpButtonClickedEvent event,
+      Emitter<AuthSignState> emit) async {
     emit(AuthSignUpLoadingState());
 
     if (event.email != '' && event.password != '') {
       try {
         final userCredential =
-            await AuthLogRepo.SignUpUser(event.email, event.password);
+        await AuthLogRepo.SignUpUser(event.email, event.password);
 
         if (userCredential != null) {
+        final user =  AuthLogRepo.CreateDatabase(event.name, event.email, event.password, FirebaseAuth.instance.currentUser!.uid);
+        if(user != null)
           emit(AuthSignUpSuccessState(userCredential.user));
         } else {
           emit(AuthSignUpErrorState('An error occured during signUp'));
