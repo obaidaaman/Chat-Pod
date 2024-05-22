@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:space_pod/screens/profile/edit_profile/ui/edit_profile_page.dart';
-
 import '../bloc/profile_detail_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -14,29 +13,25 @@ class ProfilePage extends StatelessWidget {
     ProfileDetailBloc bloc = ProfileDetailBloc();
 
     return BlocProvider(
-      create: (context) => ProfileDetailBloc(),
+      create: (context) => ProfileDetailBloc()..add(FetchUserEvent()),
       child: Scaffold(
         backgroundColor: Colors.grey,
         appBar: AppBar(
-          automaticallyImplyLeading: true,
+
           backgroundColor: Colors.transparent,
           leading: const Icon(
             Icons.keyboard_backspace_rounded,
             color: Colors.white,
           ),
           centerTitle: true,
-          title:const Text(
+          title: const Text(
             'Profile',
             style: TextStyle(color: Colors.white),
           ),
         ),
-        body: BlocBuilder<ProfileDetailBloc, ProfileDetailState>(
+        body: BlocConsumer<ProfileDetailBloc, ProfileDetailState>(
           bloc: bloc,
           builder: (context, state) {
-            if (state is EditProfileClickedState) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const EditProfilePage()));
-            }
             if (state is ProfileDetailInitial) {
               return Center(
                 child: CircularProgressIndicator(
@@ -55,21 +50,21 @@ class ProfilePage extends StatelessWidget {
                           height: 120,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(80),
-                            child: Image(
+                            child: const Image(
                               image: AssetImage('assets/gemini.png'),
                             ),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Positioned(
-                              bottom: 0,
-                              right: 5,
-                              child: Icon(
+                        Positioned(
+                            bottom: 0,
+                            right: 5,
+                            child: GestureDetector(
+                              onTap: () {},
+                              child: const Icon(
                                 Icons.add,
                                 size: 40,
-                              )),
-                        ),
+                              ),
+                            )),
                       ],
                     ),
                     const SizedBox(
@@ -97,12 +92,12 @@ class ProfilePage extends StatelessWidget {
                         onPressed: () {
                           bloc.add(EditProfileButtonClickedEvent());
                         },
-                        child: Text(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue.shade900),
+                        child: const Text(
                           'Edit Profile',
                           style: TextStyle(color: Colors.white),
                         ),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue.shade900),
                       ),
                     ),
                     const SizedBox(
@@ -136,6 +131,16 @@ class ProfilePage extends StatelessWidget {
               );
             } else {
               return Container();
+            }
+          },
+          listener: (BuildContext context, ProfileDetailState state) {
+            if (state is EditProfileClickedState) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditProfilePage())).then((value) {
+                bloc.add(FetchUserEvent());
+              });
             }
           },
         ),

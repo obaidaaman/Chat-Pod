@@ -23,13 +23,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+
     TextEditingController controller = TextEditingController();
+
     final ChatBloc chatBloc = ChatBloc();
+
     return Scaffold(
+
       body: BlocConsumer<ChatBloc, ChatState>(
+
         bloc: chatBloc,
-        listener: (context, state) {},
+
+        listener: (context, state) {
+
+        },
+
         builder: (context, state) {
+
           switch (state.runtimeType) {
             case ChatSuccessState:
               List<ChatMessageModel> messages =
@@ -189,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
 
             default:
-              return SizedBox(
+              return const SizedBox(
                 child: Text('LogOut Error'),
               );
           }

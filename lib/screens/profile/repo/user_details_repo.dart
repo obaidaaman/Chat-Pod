@@ -13,10 +13,18 @@ class UserDetailsRepo {
 
     return data;
 
+  }
 
+  static Future<bool>  UpdateCurrentUserDetails(String id,String name,String email, String password) async {
 
+     _firestore.collection('users').doc(id).update({
 
-
-
+       'full_name' : name,
+       'email' : email,
+       'password' : password
+     }).then((value) {
+       return true;
+     },);
+     return false;
   }
 }
